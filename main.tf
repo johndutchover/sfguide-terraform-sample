@@ -13,8 +13,9 @@ provider "snowflake" {
 }
 
 provider "snowflake" {
-  alias = "security_admin"
-  role  = "SECURITYADMIN"
+  alias       = "security_admin"
+  role        = "SECURITYADMIN"
+  private_key = file("~/.ssh/snowflake_key")
 }
 
 resource "snowflake_role" "role" {
