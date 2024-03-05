@@ -11,10 +11,14 @@
 
 ### Setup
 
+#### Bootstrap Snowflake Account
+
+
 #### [Keypair Authentication Environment Variables](https://registry.terraform.io/providers/Snowflake-Labs/snowflake/latest/docs#keypair-authentication-environment-variables)
 ```bash
-openssl genrsa -out ~/.ssh/snowflake_key 4096
-openssl rsa -in snowflake_key -pubout -out ~/.ssh/snowflake_key.pub
+openssl genrsa -out snowflake_tf_key 4096
+openssl rsa -in snowflake_tf_key -pubout -out snowflake_tf_key.pub
+openssl pkcs8 -topk8 -inform pem -in snowflake_tf_key -outform PEM -v2 aes-256-cbc -out snowflake_tf_key.p8
 ```
 **Important**
 > When setting the RSA_PUBLIC_KEY in Snowflake, you need to remove the PEM header and delimeters, 
@@ -22,15 +26,8 @@ as well as **all spaces** and **line breaks**!
 > > (-----BEGIN PUBLIC KEY----- and -----END PUBLIC KEY-----).
 
 #### [Setup Terraform Authentication](https://quickstarts.snowflake.com/guide/terraforming_snowflake/index.html#3)
-I used direnv to set environment variables and created a `.envrc` file with the following contents:
+I used a `terraform.tfvars` file to populate variables defined in the `variables.tf` file.
 
-```bash
-export SNOWFLAKE_USER="tf-snow"
-export SNOWFLAKE_AUTHENTICATOR=JWT
-export SNOWFLAKE_ACCOUNT="ORGANIZATION-LOCATOR"
-  # "ORGANIZATION" = your organization_identifier
-  # "CONNECTION" = your connection_identifier
-````
 Note: The SNOWFLAKE_ACCOUNT variable needs to be in "URL" format. More info [here](https://docs.snowflake.com/en/user-guide/admin-account-identifier#using-an-account-name-as-an-identifier).
 
 #### Provider deprecation note (v0.74.0 and higher)
