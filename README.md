@@ -44,3 +44,7 @@ private_key_path = "<filepath>"
 private_key = file("<filepath>")
 }
 ```
+
+#### Provider deprecation advanced notification
+resource `snowflake_grant_privileges_to_role` is deprecated and will be removed in a future major version release. Please use `snowflake_grant_privileges_to_account_role` instead.
+
